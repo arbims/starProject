@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\StarController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', HomeController::class)->name('home');
 
+
+Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/login', [AuthController::class, 'postLogin'])->name('auth.postLogin');
 
 Route::prefix('admin')->name('admin')->group(function () {
     Route::resource('star', StarController::class);
