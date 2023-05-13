@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StarRequest;
 use App\Models\Star;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,7 @@ class StarController extends Controller
 {
         
     /**
-     * index
+     * lsites les enregistrement
      *
      * @return void
      */
@@ -19,52 +20,63 @@ class StarController extends Controller
         $stars = Star::all();
         return view('admin.star.index', compact('stars'));
     }
-
+    
     /**
-     * Show the form for creating a new resource.
+     * Affichage d'ecran d'ajout
+     *
+     * @return void
      */
     public function create()
     {
-        //
+        $star = new Star();
+        return view('admin.star.create', ['star' => $star]);
+    }
+    
+    /**
+     * Ajout d"un star
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function store(StarRequest $request)
+    {
+        Star::create($request->all());
+        return to_route('adminstar.index')->with('success', 'Le star a bien été créé');
     }
 
+      
     /**
-     * Store a newly created resource in storage.
+     * vue d'edition
+     *
+     * @param  mixed $id
+     * @return void
      */
-    public function store(Request $request)
+    public function edit(int $id)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $star = Star::findOrFail($id);
+        return view('admin.star.edit', ['star' => $star]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Star $star, StarRequest $request)
     {
-        //
+        $star->update($request->all());
+        return to_route('adminstar.index')->with('success', 'Le star a bien été modifiée');
     }
 
+    
     /**
-     * Remove the specified resource from storage.
+     * suppression de l'enregistrement avec l'image associé
+     *
+     * @param  mixed $star
+     * @return void
      */
-    public function destroy(string $id)
+    public function destroy(Star $star)
     {
-        //
+        $star->destroyImage();
+        $star->delete();
+        return to_route('adminstar.index')->with('success', 'Le star a bien été supprimé');
     }
 }

@@ -11,7 +11,7 @@ class StarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,11 +21,15 @@ class StarRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'firstname' => ['required','min:2','regex:/^[a-zA-Z]+$'],
-            'lastname' => ['required','min:2','regex:/^[a-zA-Z]+$'],
+        $rules = [
+            'nom' => ['required','min:2','regex:/^[a-zA-Z]+$/'],
+            'prenom' => ['required','min:2','regex:/^[a-zA-Z]+$/'],
             'image' => ['required','image'],
             'description' => ['required'],
         ];
+        if ($this->request->get('_method') == "PATCH") {
+            $rules['image'] = ['image'];
+        }
+        return $rules;
     }
 }
