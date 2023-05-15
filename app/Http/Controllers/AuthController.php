@@ -27,7 +27,7 @@ class AuthController extends Controller
         $credentials = $request->validated();
         if(Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home'));
+            return redirect()->intended(route('adminstar.index'));
         }
         return to_route('auth.login')->with('error', 'Login ou mot de passe Incorrecte')->onlyInput('email');
     }
