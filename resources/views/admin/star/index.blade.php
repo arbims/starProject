@@ -19,7 +19,7 @@
         <tbody>
             @foreach ($stars as $star)
                 <tr class="border-b dark:border-neutral-500">
-                    <td class="whitespace-nowrap px-6 py-4">{{ $star->image }}</td>
+                    <td class="whitespace-nowrap px-6 py-4 w-12 h-12"><img src="/storage/{{ $star->image }}" ></td>
                     <td class="whitespace-nowrap px-6 py-4">{{ $star->nom }}</td>
                     <td class="whitespace-nowrap px-6 py-4">{{ $star->prenom }}</td>
                     <td class="whitespace-nowrap px-6 py-4">
@@ -36,4 +36,7 @@
             @endforeach
         </tbody>
     </table>
+    <div class="flex items-center justify-center mt-10">
+    {{ $stars->links() }}
+    </div>
 @endsection

@@ -17,7 +17,7 @@ class StarController extends Controller
      */
     public function index()
     {
-        $stars = Star::all();
+        $stars = Star::paginate(2);
         return view('admin.star.index', compact('stars'));
     }
     

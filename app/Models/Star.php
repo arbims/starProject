@@ -25,11 +25,11 @@ class Star extends Model
                 mkdir(storage_path('app/public/images/star'), 0777, true);
             }
             ImageManagerStatic::make($image)->fit(600,400)->save(storage_path('app/public')."/images/star/$name_image");
-            $this->attributes['image'] = $name_image;
+            $this->attributes['image'] = "/images/star/$name_image";
         }
     }
 
     public function destroyImage() {
-        Storage::disk('public')->delete("/images/star/". $this->image);
+        Storage::disk('public')->delete($this->image);
     }
 }

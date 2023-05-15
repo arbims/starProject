@@ -16,12 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// route partie front
 Route::get('/', HomeController::class)->name('home');
 
-
+// liste des route pour l'authentification
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/login', [AuthController::class, 'postLogin'])->name('auth.postLogin');
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-Route::prefix('admin')->name('admin')->group(function () {
+// routes administrations
+Route::prefix('admin')->name('admin')->middleware('auth')->group(function () {
     Route::resource('star', StarController::class);
 });
